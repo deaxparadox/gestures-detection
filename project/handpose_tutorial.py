@@ -16,6 +16,10 @@ import cv2
 import numpy as np
 import uuid
 import os
+import time
+
+import config as config
+
 
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
@@ -24,7 +28,14 @@ mp_hands = mp.solutions.hands
 <img src=https://i.imgur.com/qpRACer.png />
 """
 
-cap = cv2.VideoCapture(1)
+
+#### RESOLUTION SIZE###
+xCam = 640
+yCam = 480
+#######################
+cap = cv2.VideoCapture(0)
+config.WindowSize.set_size(cap, 640, 480)
+
 
 with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.5) as hands:
     while cap.isOpened():
@@ -44,6 +55,9 @@ with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.5) a
 
         # Set flag to true
         image.flags.writeable = True
+        
+        config.ShowFPS.show_fps(image)
+        # cv2.putText(image, f"Message: Hello", (40, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 25, 0), 3)
 
         # RGB 2 BGR
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
